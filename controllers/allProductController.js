@@ -1,14 +1,17 @@
-import Product from '../models/ProductModel.js'; 
+import sequelize from '../config/db.js';
+import ProductModel from '../models/ProductModel.js';
 
-// Вспомогательная функция для получения данных продукта из тела запроса
+const Product = ProductModel(sequelize); // ✅ инициализация модели
+
+// Вспомогательная функция
 const getProductData = (body) => ({
     articul: body.articul,
     price: body.price,
-    // Убеждаемся, что img всегда массив
-    img: Array.isArray(body.img) ? body.img : (body.img ? [body.img] : []), 
+    img: Array.isArray(body.img) ? body.img : (body.img ? [body.img] : []),
     color: body.color || null,
     description: body.description,
 });
+
 
 // === READ OPERATIONS (GET) ===
 

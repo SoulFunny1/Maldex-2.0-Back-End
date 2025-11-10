@@ -30,7 +30,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/fastCategories", fastCategoryRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/admin/users", adminUserRoutes); // <--- НОВЫЙ АДМИН-МАРШРУТ
+app.use("/api/admin/products", adminUserRoutes); // <--- НОВЫЙ АДМИН-МАРШРУТ
 
 app.get("/", (req, res) => {
     res.send("API работает!");

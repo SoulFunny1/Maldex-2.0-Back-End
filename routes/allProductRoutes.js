@@ -28,17 +28,17 @@ export default router;
     ПРИМЕРЫ ЗАПРОСОВ (если app.use('/api/admin/products', router) ):
     
     1. Создание:
-       POST /api/admin/products/create
-       Body: { articul: "A123", price: 100, description: "New item" }
+        POST /api/admin/products/create
+        Body: { articul: "A123", price: 100, description: "New item", img: "url" }
 
     2. Обновление:
-       POST /api/admin/products/update
-       Body: { id: 5, price: 150, color: "Red" }
+        POST /api/admin/products/update
+        Body: { id: 5, price: 150, color: "Red", img: "new-url" }
 
     3. Удаление:
-       POST /api/admin/products/delete
-       Body: { id: 5 }
-       
+        POST /api/admin/products/delete
+        Body: { id: 5 }
+        
     4. Чтение всех:
-       GET /api/admin/products
+        GET /api/admin/products
 */

@@ -6,23 +6,20 @@ export default (sequelize) => {
     const Product = sequelize.define(
         "Product",
         {
-            // id: Автоматически создается Sequelize как Primary Key (INTEGER, autoIncrement)
-            
+            // ... (определение полей) ...
             articul: {
                 type: DataTypes.STRING(100),
                 allowNull: false,
-                unique: true, // Артикул должен быть уникальным
+                unique: true, 
                 comment: 'Уникальный артикул товара (SKU)'
             },
             
             price: {
-                // Используем DECIMAL для точного хранения денег
                 type: DataTypes.DECIMAL(10, 2), 
                 allowNull: false,
                 comment: 'Цена товара'
             },
             
-            // Массив URL-адресов изображений (хранится как JSON-строка в базе)
             img: {
                 type: DataTypes.JSON, 
                 allowNull: true, 
