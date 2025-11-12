@@ -1,4 +1,3 @@
-// models/User.js
 import { DataTypes } from "sequelize";
 import bcrypt from 'bcrypt';
 
@@ -14,19 +13,19 @@ export default (sequelize) => {
             email: {
                 type: DataTypes.STRING(255),
                 allowNull: false,
-                unique: true, // Email должен быть уникальным
+                unique: true,
                 validate: {
-                    isEmail: true, // Встроенная проверка Sequelize на email
+                    isEmail: true,
                 },
             },
             password: {
                 type: DataTypes.STRING(255),
                 allowNull: false,
             },
-            status: {
-                type: DataTypes.ENUM('active', 'inactive', 'banned'),
+            role: {
+                type: DataTypes.ENUM('user', 'admin'),
                 allowNull: false,
-                defaultValue: 'active',
+                defaultValue: 'user', // по умолчанию обычный пользователь
             },
         },
         {
@@ -35,14 +34,13 @@ export default (sequelize) => {
         }
     );
 
-    // Хук Sequelize, который срабатывает ПЕРЕД сохранением пользователя
+    // Хешируем пароль перед сохранением
     User.beforeCreate(async (user) => {
-        // Хешируем пароль перед его сохранением в базу данных
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
     });
 
-    // Метод экземпляра для сравнения паролей
+    // Проверка пароля
     User.prototype.validPassword = function(password) {
         return bcrypt.compare(password, this.password);
     };
