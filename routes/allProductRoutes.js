@@ -1,15 +1,33 @@
 import express from 'express';
-import { getProducts, getProductById, manageProduct } from '../controllers/productController.js';
+// Убедитесь, что этот путь к контроллеру верный
+import { 
+    getProducts, 
+    getProductById, 
+    createProduct, 
+    updateProduct, 
+    deleteProduct 
+} from '../controllers/allProductController.js'; 
 
 const router = express.Router();
 
-// GET все товары
-router.get('/', getProducts);
+// ВНИМАНИЕ: Маршруты начинаются с простого '/' или ':id', 
+// потому что префикс '/api/admin/products' уже задан в server.js
 
-// GET товар по ID
-router.get('/:id', getProductById);
+// === READ маршруты ===
+// GET /api/admin/products/
+router.get('/', getProducts);          
 
-// POST действия: create, update, delete
-router.post('/:action(create|update|delete)', manageProduct);
+// GET /api/admin/products/:id
+router.get('/:id', getProductById);   
+
+// === CRUD маршруты (соответствующие REST) ===
+// POST /api/admin/products/
+router.post('/', createProduct);        
+
+// PUT /api/admin/products/:id  <-- ЭТО ИСПРАВЛЯЕТ ВАШУ ПЕРВОНАЧАЛЬНУЮ И ТЕКУЩУЮ ОШИБКИ
+router.put('/:id', updateProduct);     
+
+// DELETE /api/admin/products/:id
+router.delete('/:id', deleteProduct);  
 
 export default router;
