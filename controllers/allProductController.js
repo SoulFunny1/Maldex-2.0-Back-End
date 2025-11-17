@@ -16,7 +16,7 @@ const Product = ProductModel(sequelize);
 const getProductData = (body) => {
     // 1. Подготовка основных полей
     const data = {
-        mainArticul: body.mainArticul,
+        mainArticul: body.mainArticul,  
         name: body.name,
         category: body.category,
         description: body.description,
