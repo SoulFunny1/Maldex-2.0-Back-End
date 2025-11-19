@@ -67,16 +67,64 @@ const getProductData = (body) => {
     return data;
 };
 
-// === READ: Получить все товары ===
+// === READ: Получить все товары ===// === READ: Получить все товары (с поддержкой фильтрации) ===
 export const getProducts = async (req, res) => {
     try {
-        const products = await Product.findAll({ order: [['updatedAt', 'DESC']] });
+        // Получаем категорию: 
+        // 1. Проверяем Query Parameter (например: /products?category=Награды)
+        // 2. Проверяем URL Parameter (например: /products/category/Награды).
+        // Используйте req.params.categoryName, если в роутере у вас указано :categoryName
+        let category = req.query.category || req.params.category; 
+
+        let whereClause = {};
+
+        if (category) {
+            // Если категория найдена, устанавливаем условие WHERE для Sequelize
+            whereClause.category = category;
+        }
+
+        // Выполняем запрос к базе данных
+        const products = await Product.findAll({ 
+            where: whereClause, // Будет фильтровать по категории или вернет все, если whereClause пуст
+            order: [['updatedAt', 'DESC']] 
+        });
+
         res.status(200).json(products);
     } catch (error) {
         console.error("Ошибка при получении всех товаров:", error);
         res.status(500).json({ message: 'Ошибка сервера при получении товаров', details: error.message });
     }
 };
+
+export const getProductsByCategory = async (req, res) => {
+    try {
+        // Категория может быть получена из параметра URL (req.params.category)
+        // или из query-параметра (req.query.category).
+        let category = req.params.category || req.query.category; 
+
+        if (!category) {
+            // Возвращаем ошибку, если категория не была передана ни в params, ни в query
+            return res.status(400).json({ message: 'Требуется параметр категории для фильтрации.' });
+        }
+
+        // Фильтруем товары по полю 'category'
+        const products = await Product.findAll({ 
+            where: { category: category }, 
+            order: [['updatedAt', 'DESC']] 
+        });
+        
+        if (products.length === 0) {
+             return res.status(404).json({ message: `Товары в категории '${category}' не найдены.` });
+        }
+
+        res.status(200).json(products);
+    } catch (error) {
+        console.error(`Ошибка при получении товаров по категории '${req.params.category || req.query.category}':`, error);
+        res.status(500).json({ message: 'Ошибка сервера при получении товаров по категории', details: error.message });
+    }
+};
+
+
 
 // === READ: Получить товар по ID ===
 export const getProductById = async (req, res) => {

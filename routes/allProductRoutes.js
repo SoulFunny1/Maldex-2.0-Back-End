@@ -5,7 +5,8 @@ import {
     getProductById, 
     createProduct, 
     updateProduct, 
-    deleteProduct 
+    deleteProduct,
+    getProductsByCategory
 } from '../controllers/allProductController.js'; 
 
 const router = express.Router();
@@ -16,6 +17,8 @@ const router = express.Router();
 // === READ маршруты ===
 // GET /api/admin/products/
 router.get('/', getProducts);          
+
+router.get('/category/:category', getProductsByCategory);
 
 // GET /api/admin/products/:id
 router.get('/:id', getProductById);   

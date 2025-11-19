@@ -9,6 +9,7 @@ import fastCategoryRoutes from "./routes/fastCategoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import adminProductRoutes from "./routes/allProductRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.use("/api/fastCategories", fastCategoryRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/admin/products", adminProductRoutes); // <--- НОВЫЙ АДМИН-МАРШРУТ
+app.use("/api/cart", cartRoutes);
 
 app.get("/", (req, res) => {
     res.send("API работает!");
